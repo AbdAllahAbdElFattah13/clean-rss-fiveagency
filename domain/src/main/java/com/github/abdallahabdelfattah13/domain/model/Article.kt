@@ -8,4 +8,4 @@ import java.util.*
  * The D. GmbH,
  * Cairo, Egypt.
  */
-data class ArticleEntity(val title: String, val url: String, val publicationDate: Date)
+data class Article(val title: String, val url: String, val publicationDate: Date)

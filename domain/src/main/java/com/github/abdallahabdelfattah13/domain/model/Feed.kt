@@ -6,4 +6,4 @@ package com.github.abdallahabdelfattah13.domain.model
  * The D. GmbH,
  * Cairo, Egypt.
  */
-data class FeedEntity(val url: String, val thumbnail: String, val title: String, val description: String)
+data class Feed(val url: String, val thumbnail: String, val title: String, val description: String)
