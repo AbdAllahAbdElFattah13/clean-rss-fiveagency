@@ -1,7 +1,7 @@
-package com.github.abdallahabdelfattah13.domain.model.usecase.feed
+package com.github.abdallahabdelfattah13.domain.usecase.feed
 
 import com.github.abdallahabdelfattah13.domain.model.Feed
-import com.github.abdallahabdelfattah13.domain.model.repositories.FeedRepository
+import com.github.abdallahabdelfattah13.domain.repositories.feed.FeedRepository
 import io.reactivex.Flowable
 
 

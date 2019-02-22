@@ -1,4 +1,4 @@
-package com.github.abdallahabdelfattah13.domain.model.repositories
+package com.github.abdallahabdelfattah13.domain.repositories.feed
 
 import com.github.abdallahabdelfattah13.domain.model.Article
 import com.github.abdallahabdelfattah13.domain.model.Feed
