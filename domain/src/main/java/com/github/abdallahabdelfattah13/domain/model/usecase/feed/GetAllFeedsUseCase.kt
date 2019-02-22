@@ -1,4 +1,4 @@
-package com.github.abdallahabdelfattah13.domain.model.usecase
+package com.github.abdallahabdelfattah13.domain.model.usecase.feed
 
 import com.github.abdallahabdelfattah13.domain.model.Feed
 import com.github.abdallahabdelfattah13.domain.model.repositories.FeedRepository

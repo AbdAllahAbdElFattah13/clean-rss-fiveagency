@@ -19,5 +19,5 @@ interface FeedRepository {
 
     fun getFeedArticles(feedId: Int): Flowable<List<Article>>
 
-    fun deleteFeed(feedId: Int): Flowable<Boolean>
+    fun deleteFeed(feedId: Int): Completable
 }
