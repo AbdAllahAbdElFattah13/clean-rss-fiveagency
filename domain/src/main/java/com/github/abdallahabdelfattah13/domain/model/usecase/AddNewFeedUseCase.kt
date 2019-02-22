@@ -1,6 +1,7 @@
 package com.github.abdallahabdelfattah13.domain.model.usecase
 
 import com.github.abdallahabdelfattah13.domain.model.repositories.FeedRepository
+import io.reactivex.Completable
 import io.reactivex.Single
 
 
@@ -11,5 +12,5 @@ import io.reactivex.Single
  */
 class AddNewFeedUseCase(private val feedRepository: FeedRepository) {
 
-    fun run(feedUrl: String): Single<Int> = feedRepository.createNewFeed(feedUrl)
+    fun run(feedUrl: String): Completable = feedRepository.createNewFeed(feedUrl)
 }

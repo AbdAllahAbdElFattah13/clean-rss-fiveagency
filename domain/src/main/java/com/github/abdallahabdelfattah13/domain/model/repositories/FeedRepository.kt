@@ -2,8 +2,8 @@ package com.github.abdallahabdelfattah13.domain.model.repositories
 
 import com.github.abdallahabdelfattah13.domain.model.Article
 import com.github.abdallahabdelfattah13.domain.model.Feed
+import io.reactivex.Completable
 import io.reactivex.Flowable
-import io.reactivex.Single
 
 
 /**
@@ -13,7 +13,7 @@ import io.reactivex.Single
  */
 interface FeedRepository {
 
-    fun createNewFeed(feedUrl: String): Single<Int>
+    fun createNewFeed(feedUrl: String): Completable
 
     fun getFeeds(): Flowable<List<Feed>>
 
