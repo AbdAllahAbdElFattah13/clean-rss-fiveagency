@@ -2,7 +2,6 @@ package com.github.abdallahabdelfattah13.domain.model.usecase
 
 import com.github.abdallahabdelfattah13.domain.model.repositories.FeedRepository
 import io.reactivex.Completable
-import io.reactivex.Single
 
 
 /**
