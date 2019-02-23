@@ -16,7 +16,7 @@ import org.reactivestreams.Subscription
  * The D. GmbH,
  * Cairo, Egypt.
  */
-class BaseViewModel(private val subscribeOn: Scheduler, private val observeOn: Scheduler) : ViewModel() {
+abstract class BaseViewModel(private val subscribeOn: Scheduler, private val observeOn: Scheduler) : ViewModel() {
 
     private val disposables = CompositeDisposable()
 
