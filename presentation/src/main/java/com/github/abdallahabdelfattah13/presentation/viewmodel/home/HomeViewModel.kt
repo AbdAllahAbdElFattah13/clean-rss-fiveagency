@@ -22,7 +22,7 @@ class HomeViewModel(
     private val deleteFeedUseCase: DeleteFeedUseCase
 ) : BaseViewModel(subscribeOn, observeOn) {
 
-
+//TODO(need to lay down the livedata instances the view will be observing from each given usecase)
 }
 
 class HomeViewModelFactory(
