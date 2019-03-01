@@ -1,8 +1,9 @@
 package com.github.abdallahabdelfattah13.presentation.viewmodel.home
 
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
-import android.arch.lifecycle.ViewModelProvider
+
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.github.abdallahabdelfattah13.domain.model.Feed
 import com.github.abdallahabdelfattah13.domain.usecase.feed.AddNewFeedUseCase
 import com.github.abdallahabdelfattah13.domain.usecase.feed.DeleteFeedUseCase

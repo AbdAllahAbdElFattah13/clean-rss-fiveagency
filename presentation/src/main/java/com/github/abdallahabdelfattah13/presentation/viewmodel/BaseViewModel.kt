@@ -1,6 +1,6 @@
 package com.github.abdallahabdelfattah13.presentation.viewmodel
 
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.ViewModel
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Scheduler
