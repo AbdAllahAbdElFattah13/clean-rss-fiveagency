@@ -60,7 +60,7 @@ class HomeViewModel(
     }
 
     fun getFeeds() {
-        executeFlowable(
+        executeObservable(
             Consumer {
 
             },

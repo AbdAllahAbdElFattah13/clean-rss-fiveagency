@@ -5,6 +5,8 @@ import com.github.abdallahabdelfattah13.domain.model.Feed
 import com.github.abdallahabdelfattah13.domain.repositories.feed.FeedRepository
 import io.reactivex.Completable
 import io.reactivex.Flowable
+import io.reactivex.Observable
+import io.reactivex.subjects.BehaviorSubject
 
 
 /**
@@ -15,6 +17,7 @@ import io.reactivex.Flowable
 class InMemoryFeedRepository : FeedRepository {
 
     private val feeds = ArrayList<Feed>()
+    private val behaviorSubject: BehaviorSubject<List<Feed>> = BehaviorSubject.create()
 
     override fun createNewFeed(feedUrl: String): Completable {
         val feedId = feeds.size
@@ -26,11 +29,11 @@ class InMemoryFeedRepository : FeedRepository {
             description = "This is feed number: $feedId in your list"
         )
         feeds.add(feedCreated)
-
+        behaviorSubject.onNext(ArrayList<Feed>(feeds))
         return Completable.complete()
     }
 
-    override fun getFeeds(): Flowable<List<Feed>> = Flowable.just(feeds)
+    override fun getFeeds(): Observable<List<Feed>> = behaviorSubject
 
     override fun getFeedArticles(feedId: Int): Flowable<List<Article>> {
         TODO("Not implemented yet")

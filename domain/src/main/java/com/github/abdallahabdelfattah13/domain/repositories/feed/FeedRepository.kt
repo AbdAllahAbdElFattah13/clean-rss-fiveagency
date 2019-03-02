@@ -4,6 +4,7 @@ import com.github.abdallahabdelfattah13.domain.model.Article
 import com.github.abdallahabdelfattah13.domain.model.Feed
 import io.reactivex.Completable
 import io.reactivex.Flowable
+import io.reactivex.Observable
 
 
 /**
@@ -15,7 +16,7 @@ interface FeedRepository {
 
     fun createNewFeed(feedUrl: String): Completable
 
-    fun getFeeds(): Flowable<List<Feed>>
+    fun getFeeds(): Observable<List<Feed>>
 
     fun getFeedArticles(feedId: Int): Flowable<List<Article>>
 

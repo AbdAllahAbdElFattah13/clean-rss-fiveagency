@@ -3,6 +3,7 @@ package com.github.abdallahabdelfattah13.presentation.viewmodel
 import androidx.lifecycle.ViewModel
 import io.reactivex.Completable
 import io.reactivex.Flowable
+import io.reactivex.Observable
 import io.reactivex.Scheduler
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
@@ -20,6 +21,20 @@ abstract class BaseViewModel(private val subscribeOn: Scheduler, private val obs
 
     private val disposables = CompositeDisposable()
 
+
+    protected fun <T> executeObservable(
+        loadingConsumer: Consumer<Disposable>,
+        successConsumer: Consumer<T>,
+        throwableConsumer: Consumer<Throwable>,
+        useCase: Observable<T>
+    ) {
+        val observable = useCase
+            .doOnSubscribe(loadingConsumer)
+            .subscribeOn(subscribeOn)
+            .observeOn(observeOn)
+
+        addDisposable(observable.subscribe(successConsumer, throwableConsumer))
+    }
 
     protected fun <T> executeFlowable(
         loadingConsumer: Consumer<Subscription>,

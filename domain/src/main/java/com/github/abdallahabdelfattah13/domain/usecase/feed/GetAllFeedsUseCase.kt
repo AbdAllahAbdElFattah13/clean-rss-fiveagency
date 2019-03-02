@@ -2,7 +2,7 @@ package com.github.abdallahabdelfattah13.domain.usecase.feed
 
 import com.github.abdallahabdelfattah13.domain.model.Feed
 import com.github.abdallahabdelfattah13.domain.repositories.feed.FeedRepository
-import io.reactivex.Flowable
+import io.reactivex.Observable
 
 
 /**
@@ -12,6 +12,6 @@ import io.reactivex.Flowable
  */
 class GetAllFeedsUseCase(private val feedRepository: FeedRepository) {
 
-    fun run(): Flowable<List<Feed>> = feedRepository.getFeeds()
+    fun run(): Observable<List<Feed>> = feedRepository.getFeeds()
 
 }

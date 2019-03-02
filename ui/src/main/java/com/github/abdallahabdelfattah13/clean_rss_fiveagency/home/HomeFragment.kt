@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.abdallahabdelfattah13.clean_rss_fiveagency.R
 import com.github.abdallahabdelfattah13.clean_rss_fiveagency.home.adapters.Feeds.FeedsAdapter
-import com.github.abdallahabdelfattah13.kotlin_extensions.toast
+import com.github.abdallahabdelfattah13.kotlin_extensions.snack
 import com.github.abdallahabdelfattah13.presentation.PresentationInjections
 import com.github.abdallahabdelfattah13.presentation.viewmodel.home.HomeViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -49,9 +49,9 @@ class HomeFragment : Fragment() {
 
         homeViewModel.addFeedSucessLiveData.observe(viewLifecycleOwner, Observer {
             if (it) {
-                toast("Added the feed successfully!")
+                cl_root_view.snack("Added the feed successfully!")
             } else {
-                toast("Something went wrong while adding the new feed, please try again later!")
+                cl_root_view.snack("Something went wrong while adding the new feed, please try again later!")
             }
         })
 
