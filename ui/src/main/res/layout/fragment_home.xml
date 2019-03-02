@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".home.HomeFragment">
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_feed_input"
         style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
         android:layout_width="0dp"
@@ -26,7 +26,7 @@
             android:ems="10"
             android:hint="Feed"
             android:inputType="textEmailAddress" />
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <ImageView
         android:id="@+id/iv_save_feed"
@@ -39,7 +39,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_send_24dp" />
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_feed_items"
         android:layout_width="match_parent"
         android:layout_height="0dp"
