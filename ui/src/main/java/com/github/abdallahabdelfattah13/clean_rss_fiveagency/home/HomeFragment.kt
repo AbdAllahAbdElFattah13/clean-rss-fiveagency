@@ -46,6 +46,7 @@ class HomeFragment : Fragment(), FeedsAdapter.FeedItemActions {
             if (newFeed.isNullOrBlank()) return@setOnClickListener
 
             homeViewModel.addFeed(newFeed)
+            til_feed_input.editText?.text?.clear()
         }
 
         homeViewModel.addFeedSuccessLiveData.observe(viewLifecycleOwner, Observer {
