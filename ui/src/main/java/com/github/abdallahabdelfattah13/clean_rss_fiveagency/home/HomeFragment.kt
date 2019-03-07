@@ -12,15 +12,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.abdallahabdelfattah13.clean_rss_fiveagency.R
 import com.github.abdallahabdelfattah13.clean_rss_fiveagency.home.adapters.Feeds.FeedsAdapter
+import com.github.abdallahabdelfattah13.domain.model.Feed
 import com.github.abdallahabdelfattah13.kotlin_extensions.snack
 import com.github.abdallahabdelfattah13.presentation.PresentationInjections
 import com.github.abdallahabdelfattah13.presentation.viewmodel.home.HomeViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), FeedsAdapter.FeedItemActions {
 
     private lateinit var homeViewModel: HomeViewModel
-    private val feedsAdapter = FeedsAdapter()
+    private val feedsAdapter = FeedsAdapter(this)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -55,7 +56,19 @@ class HomeFragment : Fragment() {
             }
         })
 
+        homeViewModel.deleteFeedSucessLiveData.observe(viewLifecycleOwner, Observer {
+            if (it) {
+                cl_root_view.snack("Deleted the feed successfully!")
+            } else {
+                cl_root_view.snack("Something went wrong while deleting your feed, please try again later!")
+            }
+        })
+
         homeViewModel.getFeeds()
 
+    }
+
+    override fun onDeleteFeedClicked(feed: Feed) {
+        homeViewModel.deleteFeed(feed.id)
     }
 }

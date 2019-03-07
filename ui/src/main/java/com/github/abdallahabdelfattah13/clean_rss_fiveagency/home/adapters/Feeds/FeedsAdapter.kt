@@ -13,20 +13,25 @@ import com.github.abdallahabdelfattah13.domain.model.Feed
  * The D. GmbH,
  * Cairo, Egypt.
  */
-class FeedsAdapter : ListAdapter<Feed, FeedViewHolder>(object : DiffUtil.ItemCallback<Feed>() {
+class FeedsAdapter(private val feedItemActionsHandler: FeedItemActions) :
+    ListAdapter<Feed, FeedViewHolder>(object : DiffUtil.ItemCallback<Feed>() {
 
-    override fun areItemsTheSame(oldItem: Feed, newItem: Feed): Boolean = oldItem.id == newItem.id
+        override fun areItemsTheSame(oldItem: Feed, newItem: Feed): Boolean = oldItem.id == newItem.id
 
-    override fun areContentsTheSame(oldItem: Feed, newItem: Feed): Boolean = oldItem == newItem
+        override fun areContentsTheSame(oldItem: Feed, newItem: Feed): Boolean = oldItem == newItem
 
-}) {
+    }) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FeedViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.feed_item, parent, false)
-        return FeedViewHolder(v)
+        return FeedViewHolder(v, feedItemActionsHandler)
     }
 
     override fun onBindViewHolder(holder: FeedViewHolder, position: Int) {
         holder.bind(getItem(position), position)
+    }
+
+    interface FeedItemActions {
+        fun onDeleteFeedClicked(feed: Feed)
     }
 }

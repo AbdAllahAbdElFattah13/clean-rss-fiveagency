@@ -41,9 +41,10 @@ class InMemoryFeedRepository : FeedRepository {
 
     override fun deleteFeed(feedId: Int): Completable {
         val feedIndex = feeds.indexOfFirst { it.id == feedId }
-        return if (feedIndex == -1) Completable.error(IllegalArgumentException())
+        return if (feedIndex == -1) Completable.error(IllegalArgumentException("The feedId provided can't be found!"))
         else {
             feeds.removeAt(feedIndex)
+            behaviorSubject.onNext(ArrayList<Feed>(feeds))
             Completable.complete()
         }
     }
