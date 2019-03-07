@@ -48,7 +48,7 @@ class HomeFragment : Fragment(), FeedsAdapter.FeedItemActions {
             homeViewModel.addFeed(newFeed)
         }
 
-        homeViewModel.addFeedSucessLiveData.observe(viewLifecycleOwner, Observer {
+        homeViewModel.addFeedSuccessLiveData.observe(viewLifecycleOwner, Observer {
             if (it) {
                 cl_root_view.snack("Added the feed successfully!")
             } else {
@@ -56,7 +56,7 @@ class HomeFragment : Fragment(), FeedsAdapter.FeedItemActions {
             }
         })
 
-        homeViewModel.deleteFeedSucessLiveData.observe(viewLifecycleOwner, Observer {
+        homeViewModel.deleteFeedSuccessLiveData.observe(viewLifecycleOwner, Observer {
             if (it) {
                 cl_root_view.snack("Deleted the feed successfully!")
             } else {

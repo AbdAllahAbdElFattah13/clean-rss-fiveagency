@@ -27,8 +27,8 @@ class HomeViewModel(
     private val deleteFeedUseCase: DeleteFeedUseCase
 ) : BaseViewModel(subscribeOn, observeOn) {
 
-    val addFeedSucessLiveData: MutableLiveData<Boolean> = MutableLiveData()
-    val deleteFeedSucessLiveData = MutableLiveData<Boolean>()
+    val addFeedSuccessLiveData: MutableLiveData<Boolean> = MutableLiveData()
+    val deleteFeedSuccessLiveData = MutableLiveData<Boolean>()
     val feedsLiveData = MutableLiveData<List<Feed>>()
 
     fun addFeed(url: String) {
@@ -36,10 +36,10 @@ class HomeViewModel(
             Consumer {
             },
             Action {
-                addFeedSucessLiveData.postValue(true)
+                addFeedSuccessLiveData.postValue(true)
             },
             Consumer {
-                addFeedSucessLiveData.postValue(false)
+                addFeedSuccessLiveData.postValue(false)
             },
             addNewFeedsUseCase.run(url)
         )
@@ -50,10 +50,10 @@ class HomeViewModel(
             Consumer {
             },
             Action {
-                deleteFeedSucessLiveData.postValue(true)
+                deleteFeedSuccessLiveData.postValue(true)
             },
             Consumer {
-                deleteFeedSucessLiveData.postValue(false)
+                deleteFeedSuccessLiveData.postValue(false)
             },
             deleteFeedUseCase.run(feedId)
         )
