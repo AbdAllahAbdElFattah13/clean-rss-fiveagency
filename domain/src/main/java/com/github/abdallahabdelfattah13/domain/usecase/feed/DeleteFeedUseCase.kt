@@ -11,6 +11,10 @@ import io.reactivex.Completable
  */
 class DeleteFeedUseCase(private val feedRepository: FeedRepository) {
 
-    fun run(feedId: Int): Completable = feedRepository.deleteFeed(feedId)
+    fun run(feedId: Int): Completable {
+        if (feedId < -1)
+            return Completable.error(IllegalArgumentException("FeedId can't be -ve!"))
+        return feedRepository.deleteFeed(feedId)
+    }
 
 }
