@@ -11,5 +11,9 @@ import io.reactivex.Completable
  */
 class AddNewFeedUseCase(private val feedRepository: FeedRepository) {
 
-    fun run(feedUrl: String): Completable = feedRepository.createNewFeed(feedUrl)
+    fun run(feedUrl: String): Completable {
+        if (feedUrl.isBlank())
+            return Completable.error(IllegalArgumentException("Can't add an empty url!"))
+        return feedRepository.createNewFeed(feedUrl)
+    }
 }
