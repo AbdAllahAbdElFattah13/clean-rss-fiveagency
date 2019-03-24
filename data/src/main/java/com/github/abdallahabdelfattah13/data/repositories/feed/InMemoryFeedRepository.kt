@@ -20,6 +20,8 @@ class InMemoryFeedRepository : FeedRepository {
     private val behaviorSubject: BehaviorSubject<List<Feed>> = BehaviorSubject.create()
 
     override fun createNewFeed(feedUrl: String): Completable {
+        val feedsUrlAlreadyExist = feeds.firstOrNull { feedUrl == it.url }
+        if (feedsUrlAlreadyExist != null) return Completable.error(IllegalArgumentException("Feed already added!"))
         val feedId = feeds.size
         val feedCreated = Feed(
             id = feedId,
