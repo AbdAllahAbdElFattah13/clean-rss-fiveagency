@@ -20,6 +20,9 @@ class InMemoryFeedRepository : FeedRepository {
     private val behaviorSubject: BehaviorSubject<List<Feed>> = BehaviorSubject.create()
 
     override fun createNewFeed(feedUrl: String): Completable {
+
+        if (feedUrl.isBlank()) return Completable.error(IllegalArgumentException("feedUrl can't be empty or blank!"))
+
         val feedsUrlAlreadyExist = feeds.firstOrNull { feedUrl == it.url }
         if (feedsUrlAlreadyExist != null) return Completable.error(IllegalArgumentException("Feed already added!"))
         val feedId = feeds.size
@@ -42,6 +45,9 @@ class InMemoryFeedRepository : FeedRepository {
     }
 
     override fun deleteFeed(feedId: Int): Completable {
+
+        if (feedId < 0) return Completable.error(IllegalArgumentException("feedId can't be -ve!"))
+
         val feedIndex = feeds.indexOfFirst { it.id == feedId }
         return if (feedIndex == -1) Completable.error(IllegalArgumentException("The feedId provided can't be found!"))
         else {
