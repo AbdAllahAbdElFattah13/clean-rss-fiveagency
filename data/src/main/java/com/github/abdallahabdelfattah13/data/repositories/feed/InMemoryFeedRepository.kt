@@ -7,6 +7,7 @@ import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
+import java.net.URL
 
 
 /**
@@ -22,6 +23,12 @@ class InMemoryFeedRepository : FeedRepository {
     override fun createNewFeed(feedUrl: String): Completable {
 
         if (feedUrl.isBlank()) return Completable.error(IllegalArgumentException("feedUrl can't be empty or blank!"))
+
+        try {
+            URL(feedUrl).toURI()
+        } catch (e: Exception) {
+            return Completable.error(IllegalArgumentException("feedUrl isn't valid url!"))
+        }
 
         val feedsUrlAlreadyExist = feeds.firstOrNull { feedUrl == it.url }
         if (feedsUrlAlreadyExist != null) return Completable.error(IllegalArgumentException("Feed already added!"))

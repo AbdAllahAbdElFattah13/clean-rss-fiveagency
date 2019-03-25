@@ -50,6 +50,13 @@ class InMemoryFeedRepositoryTest {
             .assertFailure(IllegalArgumentException::class.java)
     }
 
+    @Test
+    fun shouldErrorIfCreatedFeedWithoutValidUrl() {
+        feedRepository.createNewFeed("Some random text that isn't url!")
+            .test()
+            .assertError(IllegalArgumentException::class.java)
+    }
+
     private fun mapStringToFeedObject(index: Int, s: String): Feed = Feed(
         id = index,
         url = s,
