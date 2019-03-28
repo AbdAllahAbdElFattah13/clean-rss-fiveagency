@@ -2,6 +2,7 @@ package com.github.abdallahabdelfattah13.domain.usecase.feed
 
 import com.github.abdallahabdelfattah13.domain.repositories.feed.FeedRepository
 import io.reactivex.Completable
+import java.net.URL
 
 
 /**
@@ -14,6 +15,12 @@ class AddNewFeedUseCase(private val feedRepository: FeedRepository) {
     fun run(feedUrl: String): Completable {
         if (feedUrl.isBlank())
             return Completable.error(IllegalArgumentException("Can't add an empty url!"))
+        try {
+            URL(feedUrl).toURI()
+        } catch (e: Exception) {
+            return Completable.error(IllegalArgumentException("feedUrl isn't valid url!"))
+        }
+
         return feedRepository.createNewFeed(feedUrl)
     }
 }
