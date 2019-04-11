@@ -59,6 +59,46 @@ class InMemoryFeedRepositoryTest {
     }
     //endregion
 
+    //region feedRepository.deleteFeed test cases
+    @Test
+    fun shouldCompleteDeleteFeedSuccessfully() {
+        val feedsList = getListOfFeeds().toMutableList()
+        feedsList.forEach {
+            feedRepository.createNewFeed(it.url)
+        }
+
+        feedsList.forEachIndexed { index, _ ->
+            val completableUnderTesting = feedRepository.deleteFeed(index)
+            completableUnderTesting
+                .test()
+                .assertComplete()
+                .assertNoErrors()
+        }
+    }
+
+    @Test
+    fun shouldCompleteDeleteFeedWithError_NegNumber() {
+        val completableUnderTesting = feedRepository.deleteFeed(-7)
+        completableUnderTesting
+            .test()
+            .assertFailure(IllegalArgumentException::class.java)
+    }
+
+    @Test
+    fun shouldCompleteDeleteFeedWithError_NoneExistingId() {
+        val feedsList = getListOfFeeds().toMutableList()
+        feedsList.forEach {
+            feedRepository.createNewFeed(it.url)
+        }
+
+        val completableUnderTesting = feedRepository.deleteFeed(feedsList.size)
+        completableUnderTesting
+            .test()
+            .assertFailure(IllegalArgumentException::class.java)
+    }
+
+    //endregion
+
     //region feedRepository.getFeeds test cases
     @Test
     fun getFeedsSuccessfully() {
@@ -106,6 +146,7 @@ class InMemoryFeedRepositoryTest {
             .assertValue(feeds)
     }
     //endregion
+
 
     private fun mapStringToFeedObject(index: Int, s: String): Feed = Feed(
         id = index,
