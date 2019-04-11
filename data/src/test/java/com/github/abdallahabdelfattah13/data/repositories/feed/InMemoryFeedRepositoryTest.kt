@@ -101,7 +101,7 @@ class InMemoryFeedRepositoryTest {
 
     //region feedRepository.getFeeds test cases
     @Test
-    fun getFeedsSuccessfully() {
+    fun getFeedsSuccessfully_WhileAdding() {
         val listOfFeeds = getListOfFeeds()
         val testFeedsList = ArrayList<Feed>()
 
@@ -118,6 +118,27 @@ class InMemoryFeedRepositoryTest {
                 .assertValue(testFeedsList)
         }
     }
+
+    fun getFeedsSuccessfully_WhileDeleting() {
+        val listOfFeeds = getListOfFeeds()
+        listOfFeeds.forEach {
+            feedRepository.createNewFeed(it.url)
+        }
+        val testFeedsList = ArrayList<Feed>(listOfFeeds)
+
+        val testedFeedsObservable = feedRepository.getFeeds()
+        listOfFeeds.forEachIndexed { index, _ ->
+            feedRepository.deleteFeed(index)
+            testFeedsList.removeAt(index)
+
+            testedFeedsObservable
+                .test()
+                .assertSubscribed()
+                .assertNoErrors()
+                .assertValue(testFeedsList)
+        }
+    }
+
 
     @Test
     fun getFeedsWillNotEmitInCaseOfBlankStrings() {
