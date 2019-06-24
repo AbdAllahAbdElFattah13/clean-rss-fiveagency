@@ -15,12 +15,12 @@ import java.net.URL
  * The D. GmbH,
  * Cairo, Egypt.
  */
-class InMemoryFeedRepository : FeedRepository {
+class InMemoryFeedRepoImpl : InMemoryFeedRepo {
 
     private val feeds = ArrayList<Feed>()
     private val behaviorSubject: BehaviorSubject<List<Feed>> = BehaviorSubject.create()
 
-    override fun createNewFeed(feedUrl: String): Completable {
+    override fun createNewFeedInMemory(feedUrl: String): Completable {
 
         if (feedUrl.isBlank()) return Completable.error(IllegalArgumentException("feedUrl can't be empty or blank!"))
 
@@ -41,17 +41,17 @@ class InMemoryFeedRepository : FeedRepository {
             description = "This is feed number: $feedId in your list"
         )
         feeds.add(feedCreated)
-        behaviorSubject.onNext(ArrayList<Feed>(feeds))
+        behaviorSubject.onNext(ArrayList(feeds))
         return Completable.complete()
     }
 
-    override fun getFeeds(): Observable<List<Feed>> = behaviorSubject
+    override fun getFeedsInMemory(): Observable<List<Feed>> = behaviorSubject
 
-    override fun getFeedArticles(feedId: Int): Flowable<List<Article>> {
+    override fun getFeedArticlesInMemory(feedId: Int): Flowable<List<Article>> {
         TODO("Not implemented yet")
     }
 
-    override fun deleteFeed(feedId: Int): Completable {
+    override fun deleteFeedInMemory(feedId: Int): Completable {
 
         if (feedId < 0) return Completable.error(IllegalArgumentException("feedId can't be -ve!"))
 

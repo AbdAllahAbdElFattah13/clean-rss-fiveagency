@@ -14,7 +14,7 @@ class DeleteFeedUseCase(private val feedRepository: FeedRepository) {
     fun run(feedId: Int): Completable {
         if (feedId < -1)
             return Completable.error(IllegalArgumentException("FeedId can't be -ve!"))
-        return feedRepository.deleteFeed(feedId)
+        return feedRepository.deleteFeedInMemory(feedId)
     }
 
 }
