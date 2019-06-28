@@ -24,11 +24,7 @@ object DataInjection {
 
     @JvmStatic
     fun provideDatabase(context: Context): FeedDatabase {
-        mFeedDatabase = Room.databaseBuilder(
-            context,
-            FeedDatabase::class.java,
-            "feed.db"
-        )
+        mFeedDatabase = Room.databaseBuilder(context, FeedDatabase::class.java, "feed.db")
             .build()
         return mFeedDatabase
     }
@@ -38,5 +34,5 @@ object DataInjection {
         DataSourceFactory(provideFeedInMemory(), mFeedDatabase)
 
     @JvmStatic
-    fun provideRepo(): FeedRepository = FeedRepositoryImpl(provideDatasource())
+    fun provideFeedRepository(): FeedRepository = FeedRepositoryImpl(provideDatasource())
 }

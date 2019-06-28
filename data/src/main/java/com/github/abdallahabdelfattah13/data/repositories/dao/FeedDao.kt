@@ -14,9 +14,6 @@ interface FeedDao {
     @Query("SELECT * FROM feed")
     fun selectFeeds(): Flowable<List<FeedEntity>>
 
-    /*@Delete
-    fun deleteFeed(feedDb: FeedEntity): Completable*/
-
     @Query("DELETE FROM feed WHERE id = :feedId")
     fun deleteFeed(feedId: Int): Completable
 

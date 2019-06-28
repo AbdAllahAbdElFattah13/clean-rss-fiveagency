@@ -16,7 +16,7 @@ object PresentationInjections {
 
     @JvmStatic
     fun provideHomeViewModelFactory(): HomeViewModelFactory {
-        val feedsRepo = DataInjection.provideRepo()
+        val feedsRepo = DataInjection.provideFeedRepository()
         return HomeViewModelFactory(
             Schedulers.io(), AndroidSchedulers.mainThread(),
             DomainInjection.provideAddNewFeedUseCase(feedsRepo),
