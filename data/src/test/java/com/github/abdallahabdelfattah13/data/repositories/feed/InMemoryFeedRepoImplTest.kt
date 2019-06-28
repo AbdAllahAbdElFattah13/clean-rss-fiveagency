@@ -11,17 +11,17 @@ import org.junit.Test
  */
 class InMemoryFeedRepoImplTest {
 
-    lateinit var feedRepoImpl: InMemoryFeedRepoImpl
+    lateinit var feedRepository: InMemoryFeedRepo
 
     @Before
     fun setUp() {
-        feedRepoImpl = InMemoryFeedRepoImpl()
+        feedRepository = InMemoryFeedRepoImpl()
     }
 
     //region feedRepoImpl.createNewFeed test cases
     @Test
     fun shouldCompleteCreateFeedSuccessfully() {
-        feedRepoImpl.createNewFeedInMemory(getListOfFeedsUrl()[0])
+        feedRepository.createNewFeedInMemory(getListOfFeedsUrl()[0])
             .test()
             .assertComplete()
             .assertNoErrors()
@@ -29,14 +29,14 @@ class InMemoryFeedRepoImplTest {
 
     @Test
     fun shouldCreateFeedWithErrorInCaseOfEmptyFeedUrl() {
-        feedRepoImpl.createNewFeedInMemory("")
+        feedRepository.createNewFeedInMemory("")
             .test()
             .assertFailure(IllegalArgumentException::class.java)
     }
 
     @Test
     fun shouldCreateFeedWithErrorInCaseOfBlankFeedUrl() {
-        feedRepoImpl.createNewFeedInMemory("                  ")
+        feedRepository.createNewFeedInMemory("                  ")
             .test()
             .assertFailure(IllegalArgumentException::class.java)
     }
@@ -44,16 +44,16 @@ class InMemoryFeedRepoImplTest {
     @Test
     fun shouldCreateFeedWithErrorInCaseOfSameFeedUrl() {
         val testFeedUrl = getListOfFeedsUrl()[0]
-        feedRepoImpl.createNewFeedInMemory(testFeedUrl)
+        feedRepository.createNewFeedInMemory(testFeedUrl)
 
-        feedRepoImpl.createNewFeedInMemory(testFeedUrl)
+        feedRepository.createNewFeedInMemory(testFeedUrl)
             .test()
             .assertFailure(IllegalArgumentException::class.java)
     }
 
     @Test
     fun shouldErrorIfCreatedFeedWithoutValidUrl() {
-        feedRepoImpl.createNewFeedInMemory("Some random text that isn't url!")
+        feedRepository.createNewFeedInMemory("Some random text that isn't url!")
             .test()
             .assertError(IllegalArgumentException::class.java)
     }
@@ -64,11 +64,11 @@ class InMemoryFeedRepoImplTest {
     fun shouldCompleteDeleteFeedSuccessfully() {
         val feedsList = getListOfFeeds().toMutableList()
         feedsList.forEach {
-            feedRepoImpl.createNewFeedInMemory(it.url)
+            feedRepository.createNewFeedInMemory(it.url)
         }
 
         feedsList.forEachIndexed { index, _ ->
-            val completableUnderTesting = feedRepoImpl.deleteFeedInMemory(index)
+            val completableUnderTesting = feedRepository.deleteFeedInMemory(index)
             completableUnderTesting
                 .test()
                 .assertComplete()
@@ -78,7 +78,7 @@ class InMemoryFeedRepoImplTest {
 
     @Test
     fun shouldCompleteDeleteFeedWithError_NegNumber() {
-        val completableUnderTesting = feedRepoImpl.deleteFeedInMemory(-7)
+        val completableUnderTesting = feedRepository.deleteFeedInMemory(-7)
         completableUnderTesting
             .test()
             .assertFailure(IllegalArgumentException::class.java)
@@ -88,10 +88,10 @@ class InMemoryFeedRepoImplTest {
     fun shouldCompleteDeleteFeedWithError_NoneExistingId() {
         val feedsList = getListOfFeeds().toMutableList()
         feedsList.forEach {
-            feedRepoImpl.createNewFeedInMemory(it.url)
+            feedRepository.createNewFeedInMemory(it.url)
         }
 
-        val completableUnderTesting = feedRepoImpl.deleteFeedInMemory(feedsList.size)
+        val completableUnderTesting = feedRepository.deleteFeedInMemory(feedsList.size)
         completableUnderTesting
             .test()
             .assertFailure(IllegalArgumentException::class.java)
@@ -105,10 +105,10 @@ class InMemoryFeedRepoImplTest {
         val listOfFeeds = getListOfFeeds()
         val testFeedsList = ArrayList<Feed>()
 
-        val testedFeedsObservable = feedRepoImpl.getFeedsInMemory()
+        val testedFeedsObservable = feedRepository.getFeedsInMemory()
 
         listOfFeeds.forEach {
-            feedRepoImpl.createNewFeedInMemory(it.url)
+            feedRepository.createNewFeedInMemory(it.url)
             testFeedsList.add(it)
 
             testedFeedsObservable
@@ -122,13 +122,13 @@ class InMemoryFeedRepoImplTest {
     fun getFeedsSuccessfully_WhileDeleting() {
         val listOfFeeds = getListOfFeeds()
         listOfFeeds.forEach {
-            feedRepoImpl.createNewFeedInMemory(it.url)
+            feedRepository.createNewFeedInMemory(it.url)
         }
         val testFeedsList = ArrayList<Feed>(listOfFeeds)
 
-        val testedFeedsObservable = feedRepoImpl.getFeedsInMemory()
+        val testedFeedsObservable = feedRepository.getFeedsInMemory()
         listOfFeeds.forEachIndexed { index, _ ->
-            feedRepoImpl.deleteFeedInMemory(index)
+            feedRepository.deleteFeedInMemory(index)
             testFeedsList.removeAt(index)
 
             testedFeedsObservable
@@ -142,9 +142,9 @@ class InMemoryFeedRepoImplTest {
 
     @Test
     fun getFeedsWillNotEmitInCaseOfBlankStrings() {
-        val testedFeedsObservable = feedRepoImpl.getFeedsInMemory()
+        val testedFeedsObservable = feedRepository.getFeedsInMemory()
 
-        feedRepoImpl.createNewFeedInMemory("    ")
+        feedRepository.createNewFeedInMemory("    ")
 
         testedFeedsObservable
             .test()
@@ -155,10 +155,10 @@ class InMemoryFeedRepoImplTest {
 
     @Test
     fun getFeedsWillReturnLastStateUponSubscription() {
-        val testedFeedsObservable = feedRepoImpl.getFeedsInMemory()
+        val testedFeedsObservable = feedRepository.getFeedsInMemory()
         val feeds = getListOfFeeds()
 
-        feeds.forEach { feed -> feedRepoImpl.createNewFeedInMemory(feed.url) }
+        feeds.forEach { feed -> feedRepository.createNewFeedInMemory(feed.url) }
 
         testedFeedsObservable
             .test()
