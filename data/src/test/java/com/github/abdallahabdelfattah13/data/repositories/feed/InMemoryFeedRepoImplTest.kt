@@ -9,19 +9,19 @@ import org.junit.Test
  * The D. GmbH,
  * Cairo, Egypt.
  */
-class InMemoryFeedRepositoryTest {
+class InMemoryFeedRepoImplTest {
 
-    lateinit var feedRepository: InMemoryFeedRepository
+    lateinit var feedRepository: InMemoryFeedRepo
 
     @Before
     fun setUp() {
-        feedRepository = InMemoryFeedRepository()
+        feedRepository = InMemoryFeedRepoImpl()
     }
 
-    //region feedRepository.createNewFeed test cases
+    //region feedRepoImpl.createNewFeed test cases
     @Test
     fun shouldCompleteCreateFeedSuccessfully() {
-        feedRepository.createNewFeed(getListOfFeedsUrl()[0])
+        feedRepository.createNewFeedInMemory(getListOfFeedsUrl()[0])
             .test()
             .assertComplete()
             .assertNoErrors()
@@ -29,14 +29,14 @@ class InMemoryFeedRepositoryTest {
 
     @Test
     fun shouldCreateFeedWithErrorInCaseOfEmptyFeedUrl() {
-        feedRepository.createNewFeed("")
+        feedRepository.createNewFeedInMemory("")
             .test()
             .assertFailure(IllegalArgumentException::class.java)
     }
 
     @Test
     fun shouldCreateFeedWithErrorInCaseOfBlankFeedUrl() {
-        feedRepository.createNewFeed("                  ")
+        feedRepository.createNewFeedInMemory("                  ")
             .test()
             .assertFailure(IllegalArgumentException::class.java)
     }
@@ -44,31 +44,31 @@ class InMemoryFeedRepositoryTest {
     @Test
     fun shouldCreateFeedWithErrorInCaseOfSameFeedUrl() {
         val testFeedUrl = getListOfFeedsUrl()[0]
-        feedRepository.createNewFeed(testFeedUrl)
+        feedRepository.createNewFeedInMemory(testFeedUrl)
 
-        feedRepository.createNewFeed(testFeedUrl)
+        feedRepository.createNewFeedInMemory(testFeedUrl)
             .test()
             .assertFailure(IllegalArgumentException::class.java)
     }
 
     @Test
     fun shouldErrorIfCreatedFeedWithoutValidUrl() {
-        feedRepository.createNewFeed("Some random text that isn't url!")
+        feedRepository.createNewFeedInMemory("Some random text that isn't url!")
             .test()
             .assertError(IllegalArgumentException::class.java)
     }
     //endregion
 
-    //region feedRepository.deleteFeed test cases
+    //region feedRepoImpl.deleteFeed test cases
     @Test
     fun shouldCompleteDeleteFeedSuccessfully() {
         val feedsList = getListOfFeeds().toMutableList()
         feedsList.forEach {
-            feedRepository.createNewFeed(it.url)
+            feedRepository.createNewFeedInMemory(it.url)
         }
 
         feedsList.forEachIndexed { index, _ ->
-            val completableUnderTesting = feedRepository.deleteFeed(index)
+            val completableUnderTesting = feedRepository.deleteFeedInMemory(index)
             completableUnderTesting
                 .test()
                 .assertComplete()
@@ -78,7 +78,7 @@ class InMemoryFeedRepositoryTest {
 
     @Test
     fun shouldCompleteDeleteFeedWithError_NegNumber() {
-        val completableUnderTesting = feedRepository.deleteFeed(-7)
+        val completableUnderTesting = feedRepository.deleteFeedInMemory(-7)
         completableUnderTesting
             .test()
             .assertFailure(IllegalArgumentException::class.java)
@@ -88,10 +88,10 @@ class InMemoryFeedRepositoryTest {
     fun shouldCompleteDeleteFeedWithError_NoneExistingId() {
         val feedsList = getListOfFeeds().toMutableList()
         feedsList.forEach {
-            feedRepository.createNewFeed(it.url)
+            feedRepository.createNewFeedInMemory(it.url)
         }
 
-        val completableUnderTesting = feedRepository.deleteFeed(feedsList.size)
+        val completableUnderTesting = feedRepository.deleteFeedInMemory(feedsList.size)
         completableUnderTesting
             .test()
             .assertFailure(IllegalArgumentException::class.java)
@@ -99,16 +99,16 @@ class InMemoryFeedRepositoryTest {
 
     //endregion
 
-    //region feedRepository.getFeeds test cases
+    //region feedRepoImpl.getFeeds test cases
     @Test
     fun getFeedsSuccessfully_WhileAdding() {
         val listOfFeeds = getListOfFeeds()
         val testFeedsList = ArrayList<Feed>()
 
-        val testedFeedsObservable = feedRepository.getFeeds()
+        val testedFeedsObservable = feedRepository.getFeedsInMemory()
 
         listOfFeeds.forEach {
-            feedRepository.createNewFeed(it.url)
+            feedRepository.createNewFeedInMemory(it.url)
             testFeedsList.add(it)
 
             testedFeedsObservable
@@ -122,13 +122,13 @@ class InMemoryFeedRepositoryTest {
     fun getFeedsSuccessfully_WhileDeleting() {
         val listOfFeeds = getListOfFeeds()
         listOfFeeds.forEach {
-            feedRepository.createNewFeed(it.url)
+            feedRepository.createNewFeedInMemory(it.url)
         }
         val testFeedsList = ArrayList<Feed>(listOfFeeds)
 
-        val testedFeedsObservable = feedRepository.getFeeds()
+        val testedFeedsObservable = feedRepository.getFeedsInMemory()
         listOfFeeds.forEachIndexed { index, _ ->
-            feedRepository.deleteFeed(index)
+            feedRepository.deleteFeedInMemory(index)
             testFeedsList.removeAt(index)
 
             testedFeedsObservable
@@ -142,9 +142,9 @@ class InMemoryFeedRepositoryTest {
 
     @Test
     fun getFeedsWillNotEmitInCaseOfBlankStrings() {
-        val testedFeedsObservable = feedRepository.getFeeds()
+        val testedFeedsObservable = feedRepository.getFeedsInMemory()
 
-        feedRepository.createNewFeed("    ")
+        feedRepository.createNewFeedInMemory("    ")
 
         testedFeedsObservable
             .test()
@@ -155,10 +155,10 @@ class InMemoryFeedRepositoryTest {
 
     @Test
     fun getFeedsWillReturnLastStateUponSubscription() {
-        val testedFeedsObservable = feedRepository.getFeeds()
+        val testedFeedsObservable = feedRepository.getFeedsInMemory()
         val feeds = getListOfFeeds()
 
-        feeds.forEach { feed -> feedRepository.createNewFeed(feed.url) }
+        feeds.forEach { feed -> feedRepository.createNewFeedInMemory(feed.url) }
 
         testedFeedsObservable
             .test()

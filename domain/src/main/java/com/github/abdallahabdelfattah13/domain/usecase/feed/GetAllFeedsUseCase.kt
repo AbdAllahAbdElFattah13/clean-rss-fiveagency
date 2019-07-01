@@ -12,6 +12,6 @@ import io.reactivex.Observable
  */
 class GetAllFeedsUseCase(private val feedRepository: FeedRepository) {
 
-    fun run(): Observable<List<Feed>> = feedRepository.getFeeds()
+    fun run(): Observable<List<Feed>> = feedRepository.getFeedsInMemory()
 
 }

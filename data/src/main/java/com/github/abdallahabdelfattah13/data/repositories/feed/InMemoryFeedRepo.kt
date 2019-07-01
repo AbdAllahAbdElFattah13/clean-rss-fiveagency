@@ -1,4 +1,4 @@
-package com.github.abdallahabdelfattah13.domain.repositories.feed
+package com.github.abdallahabdelfattah13.data.repositories.feed
 
 import com.github.abdallahabdelfattah13.domain.model.Article
 import com.github.abdallahabdelfattah13.domain.model.Feed
@@ -6,13 +6,7 @@ import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Observable
 
-
-/**
- * Created by AbdAllah AbdElfattah on 21/02/2019,
- * The D. GmbH,
- * Cairo, Egypt.
- */
-interface FeedRepository {
+interface InMemoryFeedRepo {
 
     fun createNewFeedInMemory(feedUrl: String): Completable
 
@@ -21,11 +15,5 @@ interface FeedRepository {
     fun getFeedArticlesInMemory(feedId: Int): Flowable<List<Article>>
 
     fun deleteFeedInMemory(feedId: Int): Completable
-
-    fun insertFeedInDb(feed: Feed): Completable
-
-    fun selectFeedsInDb(): Flowable<List<Feed>>
-
-    fun deleteFeedInDb(feed: Int): Completable
 
 }
